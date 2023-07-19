@@ -1,0 +1,178 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<iostream>
+#include<fstream>
+#include<string>
+#include<sstream>
+#include<ctime>
+using namespace std;
+
+/*------------------------- class doctor ------------------------*/
+
+class doctor
+{
+	string buffer,dname,daddress,did,age;
+	string didlist[100];
+    int count,addlist[100];
+ 	public:
+
+ 		void createindex();
+ 		string extractdid(string);
+ 		void sortindex();
+ 		void insert();
+ 		void display_doctor();
+        void modify(string);
+ 		void print();
+ 		void search(string);
+ 		int searchindex(string);
+ 		void remove(string);
+
+ 		/* index list */
+ 		void index_create();
+ 		string did_extract(string);
+ 		void index_sort();
+} d;
+
+
+/*------------------------- class patient ------------------------*/
+
+
+class patients
+{
+    public:
+           string pid,paddress,page,pname,pproblem;
+           string pidlist[100];
+           int count,addlist[100];
+           void createindex();
+           void remove(string);
+           void insert();
+           int searchindex(string);
+           void search(string);
+           void modify(string);
+           void sortindex();
+           void display_p_record();
+           void print();
+           string extractpid(string);
+
+           /* index list */
+ 			void index_create();
+ 			string pid_extract(string);
+ 			void index_sort();
+}pa;
+
+class Nurse
+{
+    public:
+        string nid,nage,naddr,nname;
+        string nidlist[100];
+        int count,addlist[100];
+        void createindex();
+        void insert();
+        void display_n_record();
+        void modify(string);
+        void print();
+        void remove(string);
+        int searchindex(string);
+        void search(string);
+        void sortindex();
+        string extractnid(string);
+
+        /* index list */
+ 		void index_create();
+ 		string nid_extract(string);
+ 		void index_sort();
+}n;
+class Receptionist
+{
+    public:
+        string rid,rage,raddr,rname;
+        string ridlist[100];
+        int count,addlist[100];
+        void createindex();
+        void insert();
+        void modify(string);
+        void display_r_record();
+        void print();
+        void remove(string);
+        int searchindex(string);
+        void search(string);
+        void sortindex();
+        string extractid(string);
+
+        /* index list */
+ 		void index_create();
+ 		string rid_extract(string);
+ 		void index_sort();
+}r;
+
+class Wards
+{
+    public:
+        string wno,wname,totalb;
+        string wnolist[100];
+        int count,addlist[100];
+        void createindex();
+        void insert();
+        void display_w_record();
+        void print();
+        void modify(string);
+        void remove(string);
+        int searchindex(string);
+        void search(string);
+        void sortindex();
+        string extractid(string);
+
+        /* index list */
+ 		void index_create();
+ 		string wno_extract(string);
+ 		void index_sort();
+}w;
+
+
+/* -------- index doctor --------*/
+void doctor::index_create() {
+    fstream file;
+	int pos;
+
+	string buffer,did;
+     	count=-1;
+     	file.open("doctor.txt",ios::in);
+     	while(!file.eof())
+	{
+           pos=file.tellg();
+           buffer.erase();
+           getline(file,buffer);
+           if(buffer[0]!='*')
+           {
+                      if(buffer.empty())
+                      break;
+                      did=did_extract(buffer);
+                      didlist[++count]=did;
+                      addlist[count]=pos;
+           }
+     }
+     file.close();
+     index_sort();
+     buffer.erase();
+ }
+ string doctor::did_extract(string buffer)
+ {
+     string did;
+     int i=0;
+     did.erase();
+     while(buffer[i]!='|')
+     did+=buffer[i++];
+     return did;
+ }
+ void doctor::index_sort()
+ {
+     int i,j,tempadd;
+     string tempid;
+     for(i=0;i<=count;i++)
+     {
+           for(j=i+1;j<=count;j++)
+           {
+               if(didlist[i]>didlist[j])
+
+                {
+                      tempid=didlist[i];
